@@ -1,6 +1,6 @@
-# Clone Olx 
+# Clone Olx frontend
 
-Projeto feito em aula do curso [B7Web]
+Projeto desenvolvido em React Js no curso [B7Web]
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
