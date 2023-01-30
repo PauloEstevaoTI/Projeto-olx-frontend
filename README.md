@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# Clone Olx 
+
+Projeto feito em aula do curso [B7Web]
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
