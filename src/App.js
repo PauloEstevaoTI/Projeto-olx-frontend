@@ -1,25 +1,36 @@
+import React from 'react';
+import { connect } from "react-redux";
+import { BrowserRouter } from 'react-router-dom';
 
-import './App.css';
+import { Template } from './components/MainComponents'
+import Header from './components/partials/Header';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-       
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+import Routes from './Routes';
+
+
+const App = (props) => {
+  return(
+    <BrowserRouter>
+      <Template>
+        <Header />
+        <Routes />
+        {/* <Footer /> */}
+      </Template>     
+    </BrowserRouter>
+  
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return{
+    user:state.user
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return{
+   
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
