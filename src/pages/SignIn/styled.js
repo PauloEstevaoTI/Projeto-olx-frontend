@@ -24,9 +24,17 @@ export const PageArea = styled.div`
             
             .area--input{
                 flex: 1;
+
+                input[type=password], input[type=email]{
+                    width: 100%;
+                }
+
+                input[type=checkbox] {
+                    outline: 1px solid #DDD;
+                }
     
                 input {
-                    width: 100%;
+                    
                     font-size: 14px;
                     padding: 5px;
                     border: 1px solid #DDD;

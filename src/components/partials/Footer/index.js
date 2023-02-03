@@ -3,7 +3,10 @@ import { FooterArea } from "./styled";
 
 const Footer = () => {
     return(
-        <FooterArea></FooterArea>
+        <FooterArea>
+            Todos os direitos reservados<br />
+            OLX Clone B7Web
+        </FooterArea>
     )
 }
 
