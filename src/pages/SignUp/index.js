@@ -77,9 +77,9 @@ const SignUp = () => {
                     <div className="area--input">
                        <select required value={stateLoc} onChange={e=>setStateLoc(e.target.value)}>
                             <option></option>
-                            {/* {stateList.map((i, k)=>
+                            {stateList.map((i, k)=>
                                 <option key={k} value={i._id} >{i.name}</option>    
-                            )} */}
+                            )}
                        </select>
                     </div>
                 </label>
