@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import { useParams } from "react-router-dom";
-import { PageArea, PageContainer } from "./styled";
+import { PageArea} from "./styled";
 import useApi from '../../helpers/OlxAPI'
+import { PageContainer } from "../../components/MainComponents";
 
 
 
@@ -11,12 +12,33 @@ const AdPage = () => {
 
     const { id } = useParams();
 
+    const [loading, setLoading] = useState(true);
+    const [adInfo, setAdInfo] = useState([]);
+
+
     // alert("ID : "+ id);
 
     return(
        <PageContainer>
         <PageArea>
-            ...
+            <div className="leftSide">
+                <div className="box">
+                    <div className="adImage">
+                        ...
+                    </div>
+                    <div className="adInfo">
+                        <div className="adName">
+                            ...
+                        </div>
+                        <div className="adDescription">
+                            ...
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="rightSide">
+                ...
+            </div>
         </PageArea>
        </PageContainer>
     )
