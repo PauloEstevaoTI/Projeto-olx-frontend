@@ -101,6 +101,14 @@ const OlxAPI = {
         )
         console.log(json)
         return json;
+    },
+
+    getAd:async(id, other = false) => {
+        const json = await apiFecthGet(
+            '/ad/item',
+            {id, other}
+        )
+        return json
     }
 };
 
