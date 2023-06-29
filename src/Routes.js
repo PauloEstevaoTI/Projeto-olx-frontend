@@ -1,5 +1,6 @@
 import React from "react";
-import {Routes , Route } from 'react-router-dom'
+import { Routes , Route } from 'react-router-dom'
+import  RouteHandler  from "./components/RouteHandler";
 
 import Home from './pages/Home'
 import About from  './pages/About'
@@ -17,6 +18,14 @@ export default () => {
             <Route element ={<SignUp />} exact path ="/signup"></Route>
             <Route element ={<AdPage />} exact path="/ads/:id"></Route>
             <Route element= {<NotFound />} exact path="*"></Route>
+            <Route 
+                path="/post-and-add"
+                element={
+                    <RouteHandler private>
+                        <About />
+                    </RouteHandler>
+                }
+            />
         </Routes>        
     
     )
