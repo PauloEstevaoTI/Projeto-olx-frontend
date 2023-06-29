@@ -2,11 +2,11 @@ import React, {useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
 import { Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
-import { PageArea, Fake} from "./styled";
+import { PageArea, Fake, OthersArea, Breadchumb} from "./styled";
 import useApi from '../../helpers/OlxAPI'
 import { PageContainer } from "../../components/MainComponents";
-
-
+import AdItem from "../../components/partials/AdItem";
+import { Link } from "react-router-dom";
 
 
 const AdPage = () => {
@@ -21,7 +21,7 @@ const AdPage = () => {
     useEffect(() => {
         const getAdInfo = async(id)=> {
             const json = await api.getAd(id, true);
-            setAdInfo(json);
+            setAdInfo(json  );
             setLoading(false)
         }
         getAdInfo(id)
@@ -40,12 +40,32 @@ const AdPage = () => {
         return `${cDay} de ${months[cMonth]} de ${cYear}`
     }
 
-    // alert("ID : "+ id);
+    let othersAds;
+
+    if(adInfo.others){
+
+        othersAds = adInfo.others.slice(0, 4);
+        console.log(othersAds);
+        console.log(adInfo.others)
+    }
+   
 
     return(
        <PageContainer>
+        { adInfo.category && 
+            
+            <Breadchumb>
+                Você está aqui:
+                <Link to="/">Home</Link>
+                /
+                <Link to={`/ad?state=${adInfo.stateName}`}>{adInfo.stateName}</Link>
+                /
+                <Link to={`/ad?state=${adInfo.stateName}&cat=${adInfo.category.slug}`}>{adInfo.category.name}</Link>
+                / {adInfo.title}
+            </Breadchumb>
+        }
+        {console.log(adInfo)}
         <PageArea>
-            {console.log(adInfo)}
             <div className="leftSide">
                 <div className="box">
                     <div className="adImage">
@@ -106,12 +126,24 @@ const AdPage = () => {
                             <small>Estado: {adInfo.stateName}</small>
                         </div>
                     </>
-                }
-                
-                    
-               
+                }              
             </div>
+           
         </PageArea>
+        <OthersArea>
+            { adInfo.others &&
+                    <>
+                        <h2>Outras ofertas</h2>
+                        <div className="list">
+                            {othersAds.map((item, key)=>
+                                <AdItem key={key} data={item} />
+                            )}
+                        </div>
+                    </>
+
+                }
+        </OthersArea>      
+
        </PageContainer>
     )
 
