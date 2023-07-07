@@ -1,17 +1,22 @@
+import React,  { useState, useRef, useEffect } from 'react';
+
 import useApi from  '../../helpers/OlxAPI'
+
+import { useNavigate } from 'react-router-dom'
+
 import MaskedInput from 'react-text-mask';
 import  createNumberMask  from 'text-mask-addons/dist/createNumberMask';
 
 import { PageContainer, PageTitle, ErrorMessage } from "../../components/MainComponents";
-import React,  { useState, useRef, useEffect } from 'react';
+
 import { PageArea } from './styled';
 
 
 const AddAd = () => {
 
     const api = useApi();
-
     const fileField = useRef('');
+    const history = useNavigate();
 
     const [categories, setCategories] = useState('');
 
@@ -21,7 +26,7 @@ const AddAd = () => {
     const [priceNegotiable, setPriceNegotiable] = useState(false);
     const [desc, setDesc] = useState('');
 
-    const [disabled, setDisabled] = useState('');
+    const [disabled, setDisabled] = useState(false);
     const [error, setError] = useState('')
 
   
@@ -38,13 +43,54 @@ const AddAd = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setDisabled(true);
+       
         setError('');
 
-        setDisabled(false)
+        let errors = [];
+
+        if(!title.trim()) {
+            errors.push('Sem título');
+        }
+
+        if(!category) {
+            errors.push('Sem categoria');
+        }
+
+        if(errors.length === 0){
+
+            const fData = new FormData();
+            fData.append('title', title);
+            fData.append('price', price)
+            fData.append('priceneg', priceNegotiable);
+            fData.append('desc', desc);
+            fData.append('cat', category)
+
+            if(fileField.current.files.length > 0){
+                for(let i=0; i<fileField.current.files.length; i++){
+                    fData.append('img', fileField.current.files[i])
+                }
+            }
+
+            const json = await api.addAd(fData);
+
+            if(!json.error){
+                history(`/ads/${json.id}`)
+                //alert(json.id)
+                return;
+            }else{
+                setError(json.error)
+            }
+
+
+        }else {
+            setError(errors.join("\n"));
+        }
+
+        //setDisabled(false)
     }
 
     const priceMask = createNumberMask({
-        prefix: 'R$ ',
+        prefix: '',
         includeThousandsSeparator: true,
         thousandsSeparatorSymbol:'.',
         allowDecimal: true,
@@ -108,7 +154,7 @@ const AddAd = () => {
                         </div>
                     </label>
                     <label className="area">
-                        <div className="area--title">Preço</div>
+                        <div className="area--title">Descrição</div>
                         <div className="area--input">
                             <textarea
                                 disable={disabled}

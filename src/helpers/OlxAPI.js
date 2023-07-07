@@ -2,7 +2,31 @@ import Cookies from "js-cookie";
 import qs from 'qs'
 import { useAsyncValue } from "react-router-dom";
 
-const BASEAPI = 'http://alunos.b7web.com.br:501'
+const BASEAPI = 'http://alunos.b7web.com.br:501';
+
+const apiFetchFile =  async (endpoint, body) => {
+    if(!body.token){
+        let token = Cookies.get('token');
+        if(token){
+            body.append('token', token)
+        }
+    }
+
+    const res = await fetch(BASEAPI+endpoint, {
+        method: 'POST',      
+        body
+    });
+
+    const json = await res.json();
+
+    if(json.notallowed){
+        window.location.href = '/signin'
+        return;
+    }
+
+    console.log(json)
+    return json;
+}
 
 const apiFecthPost = async (endpoint, body) => {
     
@@ -106,8 +130,17 @@ const OlxAPI = {
     getAd:async(id, other = false) => {
         const json = await apiFecthGet(
             '/ad/item',
+            
             {id, other}
         )
+        return json
+    },
+
+    addAd:async (fData) => {
+        const json = await apiFetchFile(
+            '/ad/add',
+            fData
+        );
         return json
     }
 };
