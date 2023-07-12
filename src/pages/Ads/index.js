@@ -18,10 +18,14 @@ const Ads = () => {
         return new URLSearchParams ( useLocation().search)
     }
 
+    
+
     const query = useQueryString();
 
+    console.log(query.get('cat'))
+
     const [q, setQ] = useState( query.get('q') != null ? query.get('q') : '' )
-    const [cats, setCat] = useState( query.get('cats') != null ? query.get('cats') : '' );
+    const [cat, setCat] = useState( query.get('cat') != null ? query.get('cat') : '' );
     const [state, setState] = useState( query.get('state') != null ? query.get('state') : '' );
 
     const [adsTotal, setAdsTotal] = useState(0);
@@ -32,24 +36,39 @@ const Ads = () => {
     
     const [resultOpacity, setResultOpacity] = useState(1)
     const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState();
     
+    const selectPage = (page) => {
+        setCurrentPage(page);
+    }
+
+    useEffect(() => {
+        setResultOpacity(0.3)
+        getAdsList();
+    },[currentPage] )
 
     const getAdsList = async () => {
-
+       
         setLoading(true)
+        let offset = 0;
+        offset = (currentPage - 1) * 9;
+        
 
         const json = await api.getAds({
             sort:'desc',
             limit: 9,
             q,
-            cats,
-            state
+            cat,
+            state,
+            offset
         });
 
        setAdList(json.ads);
+       
        setAdsTotal(json.total)
        setResultOpacity(1);
        setLoading(false);
+       
     }
 
     useEffect(() =>{
@@ -70,24 +89,25 @@ const Ads = () => {
             queryString.push(`q=${q}`);
         }
         
-        if(cats){
-            queryString.push(`cats=${cats}`);
+        if(cat){
+            queryString.push(`cat=${cat}`);
         }
         
         if(state){
             queryString.push(`state=${state}`);
         }
-
+        console.log(queryString)
         navigate(`?${queryString.join('&')}`);
 
         if(timer){
             clearTimeout(timer)
         }
 
-        timer = setTimeout(getAdsList, 2000)
-        setResultOpacity(0.3)
+        timer = setTimeout(getAdsList, 2000);
+        setResultOpacity(0.3);
+        setCurrentPage(1);
        
-    },[q, cats, state])
+    },[q, cat, state])
 
 
 
@@ -115,7 +135,7 @@ const Ads = () => {
 
     let pagination = [];
 
-    for(let i = 0; i < pageCount; i++){
+    for(let i = 1; i < pageCount; i++){
         pagination.push(i);
     }
 
@@ -133,7 +153,8 @@ const Ads = () => {
                         />
 
                         <div className="filterName">Estado: </div>
-                        <select name="state" value={state} onChange={e=>setState(e.target.value)}>                            
+                        <select name="state" value={state} onChange={e=>setState(e.target.value)}>
+                            <option></option>                       
                             {stateList.map((i, k)=>
                                 <option key={k} value={i.name}>{i.name}</option>
                             )}                              
@@ -145,7 +166,7 @@ const Ads = () => {
                             {categories.map((i, k)=>
                                 <li 
                                     key={k} 
-                                    className={cats === i.slug ? 'categoryItem active' : 'categoryItem'}
+                                    className={cat === i.slug ? 'categoryItem active' : 'categoryItem'}
                                     onClick={()=>setCat(i.slug)}
                                     >
                                     <img src={i.img} alt="" />
@@ -157,7 +178,7 @@ const Ads = () => {
                 </div>
                 <div className="rightSide">
                     <h2>Resultado</h2>
-                    { loading &&
+                    { loading && adList.length === 0 &&
                         <div className="listWarning">Carregando ...</div>
                     }
                     {
@@ -174,7 +195,11 @@ const Ads = () => {
                    
                     <div className="pagination">
                         {pagination.map((item, key) => 
-                            <div className="pagItem">{item}</div>
+                            <div 
+                                key={key}
+                                className={item === currentPage ? 'pageItem active' : 'pageItem'}
+                                onClick={() => selectPage(item)}   
+                            >{item}</div>
                         )}
                     </div>
 

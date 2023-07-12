@@ -50,6 +50,7 @@ const Home = () => {
                         <form method="GET" action="/ads">
                             <input type="text" name="q" placeholder="Oque você procura?" />
                             <select name="state" >
+                                <option></option>
                                 {stateList.map((item, key) => 
                                     <option key={key} value={item.name}>{item.name}</option>
 
@@ -60,7 +61,7 @@ const Home = () => {
                     </div>
                     <div className="categoryList">
                         {categories.map((item, key) =>
-                            <Link key={key} to={`ads?cats=${item.slug}`} className="categoryItem">
+                            <Link key={key} to={`ads?cat=${item.slug}`} className="categoryItem">
                                 <img src={item.img} alt={item.name}/>
                                 <span>{item.name}</span>
                             </Link>
@@ -77,8 +78,7 @@ const Home = () => {
                             <AdItem key={key} data={item} />
                         )}
                     </div>
-                    <Link to="/ads" className="seeAllLink" >Ver todos</Link>
-                
+                        <Link to="/ads" className="seeAllLink" >Ver todos</Link>                
                     <hr />
 
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.

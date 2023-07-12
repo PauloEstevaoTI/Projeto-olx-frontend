@@ -24,7 +24,6 @@ const apiFetchFile =  async (endpoint, body) => {
         return;
     }
 
-    console.log(json)
     return json;
 }
 
@@ -123,7 +122,7 @@ const OlxAPI = {
             '/ad/list',
             options
         )
-        console.log(json)
+       
         return json;
     },
 

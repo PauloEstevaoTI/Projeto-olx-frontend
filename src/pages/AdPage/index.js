@@ -25,7 +25,7 @@ const AdPage = () => {
             setLoading(false)
         }
         getAdInfo(id)
-        console.log(adInfo)
+       
     },[])
 
     
@@ -45,8 +45,7 @@ const AdPage = () => {
     if(adInfo.others){
 
         othersAds = adInfo.others.slice(0, 4);
-        console.log(othersAds);
-        console.log(adInfo.others)
+      
     }
    
 
@@ -64,7 +63,7 @@ const AdPage = () => {
                 / {adInfo.title}
             </Breadchumb>
         }
-        {console.log(adInfo)}
+      
         <PageArea>
             <div className="leftSide">
                 <div className="box">

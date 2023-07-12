@@ -14,7 +14,7 @@ const AdItem = (props) => {
 
     return(
         <Item className="adItem">
-            <Link to={`/ads/${props.data.id}`}>
+            <Link to={`/ad/${props.data.id}`}>
                 <div className='itemImage'>
                     <img src={props.data.image} alt=""/>
                 </div>
