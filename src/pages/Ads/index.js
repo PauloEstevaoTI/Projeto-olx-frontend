@@ -24,9 +24,20 @@ const Ads = () => {
     const [cats, setCat] = useState( query.get('cats') != null ? query.get('cats') : '' );
     const [state, setState] = useState( query.get('state') != null ? query.get('state') : '' );
 
+    const [adsTotal, setAdsTotal] = useState(0);
+    const [stateList, setStateList] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [adList, setAdList] = useState([]);
+    const [pageCount, setPageCount] = useState(0);
+    
     const [resultOpacity, setResultOpacity] = useState(1)
+    const [loading, setLoading] = useState(true);
+    
 
     const getAdsList = async () => {
+
+        setLoading(true)
+
         const json = await api.getAds({
             sort:'desc',
             limit: 9,
@@ -34,9 +45,22 @@ const Ads = () => {
             cats,
             state
         });
-       setAdList(json.ads)
-       setResultOpacity(1)
+
+       setAdList(json.ads);
+       setAdsTotal(json.total)
+       setResultOpacity(1);
+       setLoading(false);
     }
+
+    useEffect(() =>{
+
+        if(adList.length > 0) {
+            setPageCount( Math.ceil( adsTotal / adList.length) )
+        } else{
+            setPageCount( 0 );
+        }
+        
+    },[adsTotal])
 
     useEffect(()=> {
 
@@ -66,9 +90,7 @@ const Ads = () => {
     },[q, cats, state])
 
 
-    const [stateList, setStateList] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [adList, setAdList] = useState([])
+
 
     useEffect(() => {
         const getStates = async () => {
@@ -90,6 +112,12 @@ const Ads = () => {
     useEffect(() => {
         getAdsList();
     }, [api])
+
+    let pagination = [];
+
+    for(let i = 0; i < pageCount; i++){
+        pagination.push(i);
+    }
 
     return(
        <PageContainer>
@@ -129,12 +157,27 @@ const Ads = () => {
                 </div>
                 <div className="rightSide">
                     <h2>Resultado</h2>
+                    { loading &&
+                        <div className="listWarning">Carregando ...</div>
+                    }
+                    {
+                        !loading && adList.length === 0 &&
+
+                        <div className="listWarning">Não encontramos resultados.</div>
+                    }
+                    
                     <div className="list" style={{opacity: resultOpacity}}>
                         {adList.map((item, key) => 
                             <AdItem key={key} data={item}  />
                         )}
                     </div>
                    
+                    <div className="pagination">
+                        {pagination.map((item, key) => 
+                            <div className="pagItem">{item}</div>
+                        )}
+                    </div>
+
                 </div>
             </PageArea>
        </PageContainer>
