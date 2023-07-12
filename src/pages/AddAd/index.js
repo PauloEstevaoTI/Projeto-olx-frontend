@@ -74,7 +74,7 @@ const AddAd = () => {
             const json = await api.addAd(fData);
 
             if(!json.error){
-                history(`/ads/${json.id}`)
+                history(`/ad/${json.id}`)
                 //alert(json.id)
                 return;
             }else{

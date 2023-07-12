@@ -9,6 +9,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import AdPage from "./pages/AdPage";
 import AddAd from "./pages/AddAd";
+import Ads from  "./pages/Ads"
 
 export default () => {
     return(
@@ -17,7 +18,8 @@ export default () => {
             <Route element = {<About />} exact path="/about" />
             <Route element= {<SignIn />} exact path ="/signin"></Route>
             <Route element ={<SignUp />} exact path ="/signup"></Route>
-            <Route element ={<AdPage />} exact path="/ads/:id"></Route>
+            <Route element ={<AdPage />} exact path="/ad/:id"></Route>
+            <Route element ={<Ads />} exact path="/ads"></Route>
             <Route element= {<NotFound />} exact path="*"></Route>
             <Route 
                 path="/post-and-add"
