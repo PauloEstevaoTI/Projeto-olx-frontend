@@ -111,4 +111,24 @@ export const PageArea = styled.div`
             }
         }
     }
+
+    @media (max-width: 600px){
+        flex-direction: column;
+        width: 320px;
+        margin: 20px auto;
+
+        .leftSide{
+            width: 320px;
+            margin: 0;
+
+            ul{
+                display: flex;
+                flex-wrap: wrap;
+
+                li{
+                    width: 50%;
+                }
+            }
+        }
+    }
 `

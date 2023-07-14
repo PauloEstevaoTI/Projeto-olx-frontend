@@ -98,6 +98,39 @@ export const PageArea = styled.div`
             }
         }
     }
+
+    @media (max-width: 600px){
+
+        flex-direction: column;
+
+        .leftSide {
+
+            margin: 0 auto;
+
+            .box {
+                width: 320px;
+                flex-direction: column;
+            }
+
+            .adInfo {
+                padding: 10px;
+            }
+        }
+        .rightSide{
+            width: auto;
+            margin-top: 20px;
+
+            .box{
+                width: 320px;
+                margin: 0 auto;
+            }
+            .contactSellerLink {
+                width: 320px;
+                margin: 20px auto;
+            }
+            
+        }
+    }
 `
 
 export const PageContainer = styled.div``
@@ -116,6 +149,15 @@ export const OthersArea = styled.div`
         }
     }
 
+    @media (max-width: 600px){
+        margin: 10px;
+
+        .list .adItem {
+            width: 50%;
+            word-wrap: break-word;
+
+        }
+    }
 `
 
 export const Breadchumb = styled.div`
@@ -127,6 +169,11 @@ export const Breadchumb = styled.div`
         margin: 0px 5px;
         text-decoration: underline;
         color: #000;
+    }
+
+    @media screen {
+        margin: 20px;
+        text-align: center;
     }
 
 `

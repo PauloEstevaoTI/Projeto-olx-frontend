@@ -18,7 +18,7 @@ const AdItem = (props) => {
                 <div className='itemImage'>
                     <img src={props.data.image} alt=""/>
                 </div>
-                <div className='itemName'>{props.data.title}</div>
+                <div className='itemName'><p>{props.data.title}</p></div>
                 <div className='itemPrice'>{price}</div>
             </Link>
         </Item>
